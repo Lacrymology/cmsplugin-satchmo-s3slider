@@ -1,0 +1,13 @@
+Source: python-django-cms-s3slider
+Section: python
+Priority: optional
+Maintainer: Bruno Clermont <bruno@sologroup.gs>
+Build-Depends: debhelper, python-support
+
+Package: python-django-cms-s3slider
+Architecture: all
+Depends: ${misc:Depends}, python-support, python-django, python-django-cms,
+ python-django-inline-ordering, python-django-easy-thumbnails,
+ python-django-sekizai
+Provides: ${misc:Depends}
+Description: S3Slider Django CMS Plugin

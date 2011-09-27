@@ -1,0 +1,94 @@
+{% load sekizai_tags %}
+{% addtoblock "css" %}
+<style type="text/css" media="screen">
+#{{ slider_id }} {
+    width: {{ gallery.width }}px; /* important to be same as image width */
+    height: {{ gallery.height }}px; /* important to be same as image height */
+    position: relative; /* important */
+    overflow: hidden; /* important */
+}
+
+#{{ slider_id }}Content {
+    width: {{ gallery.width}}px; /* important to be same as image width or wider */
+    position: absolute;
+    top: 0;
+    margin-left: 0;
+}
+.{{ slider_id }}Image {
+    float: left;
+    position: relative;
+    display: none;
+}
+.{{ slider_id }}Image span {
+    position: absolute;
+    font: 10px/15px Arial, Helvetica, sans-serif;
+    padding: 10px 13px;
+    width: 384px;
+    background-color: #000;
+    filter: alpha(opacity=70);
+    -moz-opacity: 0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+    color: #fff;
+    display: none;
+}
+
+#{{ slider_id }} .clear {
+    clear: both;
+}
+.{{ slider_id }}Image span strong {
+    font-size: 14px;
+}
+#{{ slider_id }} .top {
+    top: 0;
+    left: 0;
+}
+#{{ slider_id }} .bottom {
+	bottom: 0;
+    left: 0;
+}
+#{{ slider_id }} .left {
+    top: 0;
+    left: 0;
+    width: 110px !important;
+    height: 280px;
+}
+#{{ slider_id }} .right {
+	right: 0;
+	bottom: 0;
+	width: 90px !important;
+	height: 290px;
+}
+#{{ slider_id }} ul { 
+    list-style-type: none;
+}
+</style>
+{% endaddtoblock %}
+{% addtoblock "js" %}<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>{% endaddtoblock %}
+{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}cmsplugin_s3slider/js/s3Slider.js"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script type="text/javascript">
+    $s3jQ(document).ready(function() {
+        $s3jQ('#{{ slider_id }}').s3Slider({
+            timeOut: {{ gallery.timeout }}
+        });
+    });
+</script>
+{% endaddtoblock %}
+  
+<div id="{{ slider_id }}" class="{{ gallery.alignment }}">
+  <ul id="{{ slider_id }}Content">
+    {% for image in images %}
+    <li class="{{ slider_id }}Image">
+      <a href=""><img src="{{ image.src.url }}" alt="1" /></a>
+      <span class="{{ image.textPosition }}">
+        <strong>{{ image.title }}</strong><br />
+        {{ image.text }}
+      </span>
+    </li>
+    {% endfor %}
+    <div class="clear {{ slider_id }}Image"></div>
+  </ul>
+</div>
+<!-- // slider -->
+

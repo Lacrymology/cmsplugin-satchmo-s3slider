@@ -1,0 +1,5 @@
+python-django-cms-s3slider (0.0.2-1) testing; urgency=low
+
+  * Initial import
+
+ -- Bruno Clermont <bruno@sologroup.gs>  Fri, 8 Jul 2011 06:47:00 -0500
