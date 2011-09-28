@@ -8,34 +8,20 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'GalleryPlugin'
-        db.create_table('cmsplugin_galleryplugin', (
+        # Adding model 'ProductGalleryPlugin'
+        db.create_table('cmsplugin_productgalleryplugin', (
             ('cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
             ('template', self.gf('django.db.models.fields.CharField')(default='cmsplugin_s3slider/gallery.html', max_length=255)),
+            ('timeout', self.gf('django.db.models.fields.IntegerField')(default=3000)),
+            ('alignment', self.gf('django.db.models.fields.CharField')(default='left', max_length=8)),
         ))
-        db.send_create_signal('cmsplugin_s3slider', ['GalleryPlugin'])
-
-        # Adding model 'Image'
-        db.create_table('cmsplugin_s3slider_image', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('inline_ordering_position', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('gallery', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cmsplugin_s3slider.GalleryPlugin'])),
-            ('src', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
-            ('src_height', self.gf('django.db.models.fields.PositiveSmallIntegerField')(null=True)),
-            ('src_width', self.gf('django.db.models.fields.PositiveSmallIntegerField')(null=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('alt', self.gf('django.db.models.fields.TextField')(blank=True)),
-        ))
-        db.send_create_signal('cmsplugin_s3slider', ['Image'])
+        db.send_create_signal('cmsplugin_satchmo_s3slider', ['ProductGalleryPlugin'])
 
 
     def backwards(self, orm):
         
-        # Deleting model 'GalleryPlugin'
-        db.delete_table('cmsplugin_galleryplugin')
-
-        # Deleting model 'Image'
-        db.delete_table('cmsplugin_s3slider_image')
+        # Deleting model 'ProductGalleryPlugin'
+        db.delete_table('cmsplugin_productgalleryplugin')
 
 
     models = {
@@ -59,22 +45,13 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'slot': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'})
         },
-        'cmsplugin_s3slider.galleryplugin': {
-            'Meta': {'object_name': 'GalleryPlugin', 'db_table': "'cmsplugin_galleryplugin'", '_ormbases': ['cms.CMSPlugin']},
+        'cmsplugin_satchmo_s3slider.productgalleryplugin': {
+            'Meta': {'object_name': 'ProductGalleryPlugin', 'db_table': "'cmsplugin_productgalleryplugin'", '_ormbases': ['cms.CMSPlugin']},
+            'alignment': ('django.db.models.fields.CharField', [], {'default': "'left'", 'max_length': '8'}),
             'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'template': ('django.db.models.fields.CharField', [], {'default': "'cmsplugin_s3slider/gallery.html'", 'max_length': '255'})
-        },
-        'cmsplugin_s3slider.image': {
-            'Meta': {'ordering': "('inline_ordering_position',)", 'object_name': 'Image'},
-            'alt': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'gallery': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cmsplugin_s3slider.GalleryPlugin']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'inline_ordering_position': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'src': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'src_height': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True'}),
-            'src_width': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'})
+            'template': ('django.db.models.fields.CharField', [], {'default': "'cmsplugin_s3slider/gallery.html'", 'max_length': '255'}),
+            'timeout': ('django.db.models.fields.IntegerField', [], {'default': '3000'})
         }
     }
 
-    complete_apps = ['cmsplugin_s3slider']
+    complete_apps = ['cmsplugin_satchmo_s3slider']
