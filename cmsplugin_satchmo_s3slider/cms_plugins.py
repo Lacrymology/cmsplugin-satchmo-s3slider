@@ -1,21 +1,16 @@
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from django.utils.translation import ugettext_lazy as _
-from sekizai.context import SekizaiContext
 
-import admin
-import models
+from cmsplugin_satchmo_s3slider import models
 
 
 class CMSSatchmoGalleryPlugin(CMSPluginBase):
-
-    model = models.GalleryPlugin
-    inlines = [admin.ImageInline, ]
+    model = models.ProductGalleryPlugin
     name = _('Product Image gallery')
-    render_template = 'cmsplugin_s3slider/gallery.html'
+    render_template = 'cmsplugin_satchmo_s3slider/gallery.html'
 
     def render(self, context, instance, placeholder):
-#        context = SekizaiContext(context)
         context.update({
                         'images': instance.image_set.all(),
                         'gallery': instance,
@@ -23,6 +18,5 @@ class CMSSatchmoGalleryPlugin(CMSPluginBase):
                        })
         self.render_template = instance.template
         return context
-
 
 plugin_pool.register_plugin(CMSSatchmoGalleryPlugin)

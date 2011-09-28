@@ -1,5 +1,5 @@
 import threading
-
+from product.models import Category
 from cms.models import CMSPlugin
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -19,6 +19,11 @@ class ProductGalleryPlugin(CMSPlugin):
         editable=len(TEMPLATE_CHOICES) > 1)
 
     timeout = models.IntegerField(default=3000)
+    product_category = models.ForeignKey(Category,
+                                         verbose_name = _('Product Category'),
+                                         help_text = _('Category that should '
+                                                       'be used to create this '
+                                                       'gallery'))
     
     POSITIONS = (
         ('left', _('Left')),
