@@ -33,13 +33,29 @@ class ProductGalleryPlugin(CMSPlugin):
     alignment = models.CharField(max_length=8,
                                  choices=POSITIONS,
                                  default='left')
-    
+
+    def images(self):
+        category = self.product_category
+        images = []
+        for p in category.product_set.all():
+            if p.productimage_set.count():
+                images.append(p.productimage_set.all()[0].picture)
+        
+        return images
     def width(self):
-        return max([i.src_width for i in self.image_set.all()])
+        images = self.images()
+        if images:
+            return max([i.width for i in images])
+        else:
+            return 0
     def height(self):
-        return max([i.src_height for i in self.image_set.all()])
+        images = self.images()
+        if images:
+            return max([i.height for i in images])
+        else:
+            return 0
     
     def __unicode__(self):
-        return _(u'%(count)d image(s) in gallery') % {
-            'count': self.image_set.count()
+        return _('Category Gallery: %(category)s') % {
+            'category': unicode(self.product_category)
             }

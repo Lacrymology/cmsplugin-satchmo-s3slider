@@ -11,11 +11,8 @@ class CMSSatchmoGalleryPlugin(CMSPluginBase):
     render_template = 'cmsplugin_satchmo_s3slider/gallery.html'
 
     def render(self, context, instance, placeholder):
-        category = instance.product_category
-        images = [p.productimage_set.all()[0] 
-                  for p in category.product_set.all()]
         context.update({
-                        'images': images,
+                        'images': instance.images(),
                         'gallery': instance,
                         'slider_id': "slider%d"%instance.pk,
                        })
