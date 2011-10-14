@@ -9,7 +9,7 @@
 }
 
 #{{ slider_id }}Content {
-    width: {{ gallery.width}}px; /* important to be same as image width or wider */
+    width: {{ gallery.width }}px; /* important to be same as image width or wider */
     position: absolute;
     top: 0;
     margin-left: 0;
@@ -23,7 +23,7 @@
     position: absolute;
     font: 10px/15px Arial, Helvetica, sans-serif;
     padding: 10px 13px;
-    width: 384px;
+    width: {{ gallery.width }}px;
     background-color: #000;
     filter: alpha(opacity=70);
     -moz-opacity: 0.7;
@@ -33,7 +33,7 @@
     display: none;
 }
 
-#{{ slider_id }} .clear {
+.{{ slider_id }}clear {
     clear: both;
 }
 .{{ slider_id }}Image span strong {
@@ -51,16 +51,13 @@
     top: 0;
     left: 0;
     width: 110px !important;
-    height: {{ gallery.height }}px;
+    height: {{ gallery.span_height }}px;
 }
 #{{ slider_id }} .right {
-	right: 0;
-	bottom: 0;
-	width: 90px !important;
-	height: {{ gallery.height }}px;
-}
-#{{ slider_id }} ul { 
-    list-style-type: none;
+    right: 0;
+    bottom: 0;
+    width: 90px !important;
+    height: {{ gallery.span_height }}px;
 }
 </style>
 {% endaddtoblock %}
@@ -87,7 +84,7 @@
       </span>
     </li>
     {% endfor %}
-    <div class="clear {{ slider_id }}Image"></div>
+    <div class="{{ slider_id }}clear"></div>
   </ul>
 </div>
 <!-- // slider -->

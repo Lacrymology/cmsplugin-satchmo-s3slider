@@ -3,6 +3,7 @@ from product.models import Category
 from cms.models import CMSPlugin
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 
 import utils
 
@@ -35,25 +36,44 @@ class ProductGalleryPlugin(CMSPlugin):
                                  default='left')
 
     def images(self):
+        class Image:
+            def __init__(self, image, title=None, text=""):
+                self.image = image
+                self.title = title
+                self.text = text
+
+            def __getattr__(self, attr):
+                return getattr(self.image, attr)
+
         category = self.product_category
         images = []
         for p in category.product_set.all():
             if p.productimage_set.count():
-                images.append(p.productimage_set.all()[0].picture)
+                image = Image(p.productimage_set.all()[0].picture,
+                              title=p.name, text=mark_safe(p.description))
+                images.append(image)
         
         return images
+
     def width(self):
         images = self.images()
         if images:
             return max([i.width for i in images])
         else:
             return 0
+
     def height(self):
         images = self.images()
         if images:
             return max([i.height for i in images])
         else:
             return 0
+
+    def span_height(self):
+        return self.height() - 13
+
+    def span_width(self):
+        return self.width() - 10
     
     def __unicode__(self):
         return _('Category Gallery: %(category)s') % {
