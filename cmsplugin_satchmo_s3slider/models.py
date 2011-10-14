@@ -2,6 +2,7 @@ import threading
 from product.models import Category
 from cms.models import CMSPlugin
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 
@@ -37,10 +38,11 @@ class ProductGalleryPlugin(CMSPlugin):
 
     def images(self):
         class Image:
-            def __init__(self, image, title=None, text=""):
+            def __init__(self, image, title=None, text="", link=""):
                 self.image = image
                 self.title = title
                 self.text = text
+                self.link = link
 
             def __getattr__(self, attr):
                 return getattr(self.image, attr)
@@ -50,7 +52,9 @@ class ProductGalleryPlugin(CMSPlugin):
         for p in category.product_set.all():
             if p.productimage_set.count():
                 image = Image(p.productimage_set.all()[0].picture,
-                              title=p.name, text=mark_safe(p.description))
+                              title=p.name, text=mark_safe(p.description),
+                              link=reverse("satchmo_product",
+                                           kwargs={'product_slug': p.slug}))
                 images.append(image)
         
         return images
